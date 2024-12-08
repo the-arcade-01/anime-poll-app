@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/joho/godotenv"
-	"github.com/the-arcade-01/quotes-poll-app/internal/api"
+	"github.com/the-arcade-01/anime-poll-app/internal/api"
 )
 
 func init() {

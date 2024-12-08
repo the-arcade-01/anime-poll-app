@@ -3,10 +3,10 @@ package service
 import (
 	"log"
 
-	"github.com/the-arcade-01/quotes-poll-app/internal/config"
-	"github.com/the-arcade-01/quotes-poll-app/internal/models"
-	"github.com/the-arcade-01/quotes-poll-app/internal/repository"
-	"github.com/the-arcade-01/quotes-poll-app/internal/utils"
+	"github.com/the-arcade-01/anime-poll-app/internal/config"
+	"github.com/the-arcade-01/anime-poll-app/internal/models"
+	"github.com/the-arcade-01/anime-poll-app/internal/repository"
+	"github.com/the-arcade-01/anime-poll-app/internal/utils"
 )
 
 type IngestService struct {

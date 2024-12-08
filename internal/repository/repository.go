@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/the-arcade-01/quotes-poll-app/internal/config"
-	"github.com/the-arcade-01/quotes-poll-app/internal/models"
+	"github.com/the-arcade-01/anime-poll-app/internal/config"
+	"github.com/the-arcade-01/anime-poll-app/internal/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -40,4 +40,13 @@ func (repo *Repository) DeleteAnimeById(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (repo *Repository) FetchAllAnime() ([]*models.DBAnimeDetails, error) {
+	var animes []*models.DBAnimeDetails
+	err := repo.dbClient.Find(&animes).Error
+	if err != nil {
+		return nil, err
+	}
+	return animes, nil
 }

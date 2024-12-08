@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/the-arcade-01/quotes-poll-app/internal/models"
+	"github.com/the-arcade-01/anime-poll-app/internal/models"
 )
 
 type RestUtil struct {

@@ -1,6 +1,6 @@
 create database if not exists anime_poll_app;
 
-use database anime_poll_app;
+use anime_poll_app;
 
 create table anime_details (
     mal_id int PRIMARY KEY UNIQUE NOT NULL,

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/the-arcade-01/quotes-poll-app/internal/models"
-	"github.com/the-arcade-01/quotes-poll-app/internal/repository"
+	"github.com/the-arcade-01/anime-poll-app/internal/models"
+	"github.com/the-arcade-01/anime-poll-app/internal/repository"
 )
 
 type ApiService struct {
@@ -45,4 +45,13 @@ func (service *ApiService) DeleteAnimeById(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	models.ResponseWithJSON(w, http.StatusOK, fmt.Sprintf("%v anime deteled successfully.", id))
+}
+
+func (service *ApiService) FetchAllAnimes(w http.ResponseWriter, r *http.Request) {
+	animes, err := service.repo.FetchAllAnime()
+	if err != nil {
+		models.ResponseWithJSON(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	models.ResponseWithJSON(w, http.StatusOK, animes)
 }

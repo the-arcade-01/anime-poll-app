@@ -43,9 +43,9 @@ type Image struct {
 }
 
 type DBAnimeDetails struct {
-	MalId     int `gorm:"primaryKey"`
-	Title     string
-	ImageLink string
+	MalId     int    `json:"mal_id" gorm:"primaryKey"`
+	Title     string `json:"title"`
+	ImageLink string `json:"image_link"`
 }
 
 func (DBAnimeDetails) TableName() string {
