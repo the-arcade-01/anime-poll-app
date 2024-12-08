@@ -3,8 +3,10 @@ package service
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/the-arcade-01/anime-poll-app/internal/cache"
 	"github.com/the-arcade-01/anime-poll-app/internal/models"
 	"github.com/the-arcade-01/anime-poll-app/internal/repository"
 )
@@ -54,4 +56,24 @@ func (service *ApiService) FetchAllAnimes(w http.ResponseWriter, r *http.Request
 		return
 	}
 	models.ResponseWithJSON(w, http.StatusOK, animes)
+}
+
+func (service *ApiService) GetAnimesForFaceOff(w http.ResponseWriter, r *http.Request) {
+	animes := cache.GetTwoRandomAnime()
+	models.ResponseWithJSON(w, http.StatusOK, animes)
+}
+
+func (service *ApiService) VoteAnime(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	malId, err := strconv.Atoi(id)
+	if err != nil {
+		models.ResponseWithJSON(w, http.StatusBadRequest, "please provide correct id")
+		return
+	}
+	err = service.repo.UpsertAnimeVote(malId)
+	if err != nil {
+		models.ResponseWithJSON(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	models.ResponseWithJSON(w, http.StatusOK, nil)
 }

@@ -81,6 +81,15 @@ func NewDBAnimeDetails(data *ApiData) (*DBAnimeDetails, error) {
 	return nil, fmt.Errorf("[NewDBAnimeDetails] images is empty, %v", data)
 }
 
+type DBAnimeVotes struct {
+	MalId int `json:"mal_id" gorm:"primaryKey"`
+	Vote  int `json:"vote"`
+}
+
+func (DBAnimeVotes) TableName() string {
+	return "anime_votes"
+}
+
 func ResponseWithJSON(w http.ResponseWriter, status int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)

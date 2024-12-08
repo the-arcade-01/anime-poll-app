@@ -22,6 +22,8 @@ func (s *Server) mountHandlers() {
 	s.Router.Get("/db/flush", apiService.FlushAnimeDB)
 	s.Router.Get("/db/{id}", apiService.DeleteAnimeById)
 	s.Router.Get("/db/animes", apiService.FetchAllAnimes)
+	s.Router.Get("/anime/fight", apiService.GetAnimesForFaceOff)
+	s.Router.Post("/anime/vote/{id}", apiService.VoteAnime)
 }
 
 func NewServer() *Server {

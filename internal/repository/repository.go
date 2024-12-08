@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/the-arcade-01/anime-poll-app/internal/cache"
 	"github.com/the-arcade-01/anime-poll-app/internal/config"
 	"github.com/the-arcade-01/anime-poll-app/internal/models"
 	"gorm.io/gorm"
@@ -48,5 +49,25 @@ func (repo *Repository) FetchAllAnime() ([]*models.DBAnimeDetails, error) {
 	if err != nil {
 		return nil, err
 	}
+	cache.CacheAnimeDetails(animes)
 	return animes, nil
+}
+
+func (repo *Repository) UpsertAnimeVote(malId int) error {
+	return repo.dbClient.Transaction(func(tx *gorm.DB) error {
+		result := tx.Model(&models.DBAnimeVotes{}).
+			Where(models.DBAnimeVotes{MalId: malId}).
+			Attrs(models.DBAnimeVotes{Vote: 1}).
+			UpdateColumn("vote", gorm.Expr("CASE WHEN vote = 0 THEN ? ELSE vote + 1 END", 1))
+
+		if result.Error != nil {
+			return result.Error
+		}
+
+		if result.RowsAffected == 0 {
+			return tx.Create(&models.DBAnimeVotes{MalId: malId, Vote: 1}).Error
+		}
+
+		return nil
+	})
 }
