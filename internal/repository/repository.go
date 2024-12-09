@@ -71,3 +71,17 @@ func (repo *Repository) UpsertAnimeVote(malId int) error {
 		return nil
 	})
 }
+
+func (repo *Repository) GetTopAnimesLeaderBoard(limit int) ([]*models.DBAnimeDetails, error) {
+	var animes []*models.DBAnimeDetails
+	err := repo.dbClient.Table("anime_votes").
+		Select("anime_details.*").
+		Joins("JOIN anime_details ON anime_votes.mal_id = anime_details.mal_id").
+		Order("anime_votes.vote DESC").
+		Limit(limit).
+		Find(&animes).Error
+	if err != nil {
+		return nil, err
+	}
+	return animes, nil
+}

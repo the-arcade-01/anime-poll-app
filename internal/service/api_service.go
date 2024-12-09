@@ -77,3 +77,18 @@ func (service *ApiService) VoteAnime(w http.ResponseWriter, r *http.Request) {
 	}
 	models.ResponseWithJSON(w, http.StatusOK, nil)
 }
+
+func (service *ApiService) GetLeaderBoard(w http.ResponseWriter, r *http.Request) {
+	num := chi.URLParam(r, "count")
+	count, err := strconv.Atoi(num)
+	if err != nil {
+		models.ResponseWithJSON(w, http.StatusBadRequest, "please provide correct number input")
+		return
+	}
+	animes, err := service.repo.GetTopAnimesLeaderBoard(count)
+	if err != nil {
+		models.ResponseWithJSON(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	models.ResponseWithJSON(w, http.StatusOK, animes)
+}
