@@ -28,7 +28,7 @@ func NewIngestService() *IngestService {
 
 func (ingest *IngestService) Start() {
 	wg := sync.WaitGroup{}
-	pageChan := make(chan int, 20)
+	pageChan := make(chan int, 4)
 
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
