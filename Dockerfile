@@ -8,13 +8,15 @@ RUN go mod download
 
 COPY . .
 
-RUN make build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main cmd/main.go
 
-# Stage 2: Run the Go application
-FROM golang:1.23.2
+# Stage 2: Minimal runtime image
+FROM alpine:3.18
 
 WORKDIR /app
 
 COPY --from=builder /app .
 
-CMD ["make", "run"]
+RUN chmod +x /app/bin/main
+
+CMD ["/app/bin/main"]
