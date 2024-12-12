@@ -29,9 +29,9 @@ func (s *Server) mountMiddlewares() {
 func (s *Server) mountHandlers() {
 	apiService := service.NewApiService()
 	s.Router.Get("/greet", apiService.Greet)
-	s.Router.Get("/start/ingestion", apiService.StartDBAnimeIngestion)
-	s.Router.Get("/db/flush", apiService.FlushAnimeDB)
-	s.Router.Get("/db/{id}", apiService.DeleteAnimeById)
+	s.Router.Post("/db/ingestion", apiService.StartDBAnimeIngestion)
+	s.Router.Delete("/db/flush", apiService.FlushAnimeDB)
+	s.Router.Delete("/db/{id}", apiService.DeleteAnimeById)
 	s.Router.Get("/db/animes", apiService.FetchAllAnimes)
 	s.Router.Get("/anime/fight", apiService.GetAnimesForFaceOff)
 	s.Router.Post("/anime/vote/{id}", apiService.VoteAnime)
